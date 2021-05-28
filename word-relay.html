@@ -32,14 +32,12 @@
           } else {
             $order.textContent = order + 1
           }
-          $input.value = ''
-          $input.focus()
         } else {
           // 올바르지 않은가
           alert('올바르지 않은 단어입니다.')
-          $input.value = ''
-          $input.focus()
         }
+        $input.value = ''
+        $input.focus()
       }
       const onInput = event => {
         newWord = event.target.value
