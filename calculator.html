@@ -68,7 +68,16 @@
       } else {
         numOne += number
       }
-      $reuslt.value += number
+      $result.value += number
+    }
+    const onClickOperator = event => {
+      console.log(event)
+      if (numOne) {
+        operator = event.target.textContent
+        $operator.value = operator
+      } else {
+        alert('숫자를 먼저 입력하세요.')
+      }
     }
 
     document
@@ -101,11 +110,15 @@
     document
       .querySelector('#num-9')
       .addEventListener('click', onClickNumber('9'))
-    document.querySelector('#plus').addEventListener('click', () => {})
-    document.querySelector('#minus').addEventListener('click', () => {})
-    document.querySelector('#divide').addEventListener('click', () => {})
-    document.querySelector('#calculate').addEventListener('click', () => {})
-    document.querySelector('#multiply').addEventListener('click', () => {})
-    document.querySelector('#clear').addEventListener('click', () => {})
+    document.querySelector('#plus').addEventListener('click', onClickOperator)
+    document.querySelector('#minus').addEventListener('click', onClickOperator)
+    document.querySelector('#divide').addEventListener('click', onClickOperator)
+    document
+      .querySelector('#calculate')
+      .addEventListener('click', onClickOperator)
+    document
+      .querySelector('#multiply')
+      .addEventListener('click', onClickOperator)
+    document.querySelector('#clear').addEventListener('click', onClickOperator)
   </script>
 </html>
