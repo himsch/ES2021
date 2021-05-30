@@ -53,7 +53,7 @@
       <button id="clear">C</button>
       <button id="num-0">0</button>
       <button id="calculate">=</button>
-      <button id="multiply">X</button>
+      <button id="multiply">*</button>
     </div>
   </body>
   <script>
@@ -62,16 +62,21 @@
     let numTwo = ''
     const $operator = document.querySelector('#operator')
     const $result = document.querySelector('#result')
+
     const onClickNumber = number => () => {
-      if (operator) {
-        numTwo += number
-      } else {
+      if (!operator) {
         numOne += number
+        $result.value += number
+        return
       }
+      if (!numTwo) {
+        $result.value = ''
+      }
+      numTwo += number
       $result.value += number
     }
+
     const onClickOperator = event => {
-      console.log(event)
       if (numOne) {
         operator = event.target.textContent
         $operator.value = operator
@@ -114,11 +119,36 @@
     document.querySelector('#minus').addEventListener('click', onClickOperator)
     document.querySelector('#divide').addEventListener('click', onClickOperator)
     document
-      .querySelector('#calculate')
-      .addEventListener('click', onClickOperator)
-    document
       .querySelector('#multiply')
       .addEventListener('click', onClickOperator)
-    document.querySelector('#clear').addEventListener('click', onClickOperator)
+    document.querySelector('#calculate').addEventListener('click', () => {
+      if (numTwo) {
+        switch (operator) {
+          case '+':
+            $result.value = parseInt(numOne) + parseInt(numTwo)
+            break
+          case '-':
+            $result.value = parseInt(numOne) - parseInt(numTwo)
+            break
+          case '/':
+            $result.value = parseInt(numOne) / parseInt(numTwo)
+            break
+          case '*':
+            $result.value = parseInt(numOne) * parseInt(numTwo)
+            break
+          default:
+            break
+        }
+      } else {
+        alert('두번째 숫자를 입력하세요.')
+      }
+    })
+    document.querySelector('#clear').addEventListener('click', () => {
+      numOne = ''
+      operator = ''
+      numTwo = ''
+      $operator.value = ''
+      $result.value = ''
+    })
   </script>
 </html>
