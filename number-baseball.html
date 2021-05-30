@@ -45,7 +45,21 @@
         e.preventDefault() // 기본동작 막기
         const value = $input.value
         $input.value = ''
-        checkInput(value)
+        if (!checkInput(value)) {
+          return
+        }
+        if (answer.join('') === value) {
+          $logs.textContent = '홈런!'
+          return
+        }
+        if (tries.length >= 9) {
+          const message = document.createTextNode(
+            `패배! 정답은 ${answer.join('')}`
+          )
+          $logs.appendChild(message)
+          return
+        }
+        tries.push(value)
       })
     </script>
   </body>
