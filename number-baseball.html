@@ -27,6 +27,7 @@
         answer.push(numbers[index])
         numbers.splice(index, 1)
       }
+      console.log(answer)
 
       const tries = []
       function checkInput(input) {
@@ -59,6 +60,22 @@
           $logs.appendChild(message)
           return
         }
+        let strike = 0
+        let ball = 0
+        for (let i = 0; i < answer.length; i++) {
+          const index = value.indexOf(answer[i])
+          if (index > -1) {
+            if (index === i) {
+              strike += 1
+            } else {
+              ball += 1
+            }
+          }
+        }
+        $logs.append(
+          `${value} : ${strike} 스트라이크 ${ball} 볼`,
+          document.createElement('br')
+        )
         tries.push(value)
       })
     </script>
