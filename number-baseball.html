@@ -7,7 +7,7 @@
     <title>숫자야구</title>
   </head>
   <body>
-    <form action="" id="form">
+    <form id="form">
       <input type="text" id="input" />
       <button>확인</button>
     </form>
@@ -27,6 +27,26 @@
         answer.push(numbers[index])
         numbers.splice(index, 1)
       }
+
+      const tries = []
+      function checkInput(input) {
+        if (input.length !== 4) {
+          return alert('4자리 숫자를 입력해주세요.')
+        }
+        if (new Set(input).size !== 4) {
+          return alert('중복되지않게 입력해주세요.')
+        }
+        if (tries.includes(input)) {
+          return alert('이미 시도한 값 입니다.')
+        }
+        return true
+      }
+      $form.addEventListener('submit', e => {
+        e.preventDefault() // 기본동작 막기
+        const value = $input.value
+        $input.value = ''
+        checkInput(value)
+      })
     </script>
   </body>
 </html>
