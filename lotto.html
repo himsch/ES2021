@@ -34,7 +34,9 @@
         const value = spliceArray[0] // 배열에 들어있는 값을 꺼내여
         shuffle.push(value) // shuffle 배열에 넣기
       }
-      console.log(shuffle)
+      // 뽑은 공 정렬하기
+      const winBalls = shuffle.slice(0, 6).sort((a, b) => a - b)
+      const bonus = shuffle[6]
     </script>
   </body>
 </html>
