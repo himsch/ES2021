@@ -28,6 +28,28 @@
       const IMG_URL = './rsp.png'
       $computer.style.background = `url(${IMG_URL}) 0 0`
       $computer.style.backgroundSize = 'auto 200px'
+
+      const rspX = {
+        scissors: '0',
+        rock: '-220px',
+        paper: '-440px',
+      }
+
+      let compuerChoice = 'scissors'
+      const changeComputerHard = () => {
+        if (compuerChoice === 'scissors') {
+          compuerChoice = 'rock'
+        } else if (compuerChoice === 'rock') {
+          compuerChoice = 'paper'
+        } else {
+          compuerChoice = 'scissors'
+        }
+        // rspX.computerChoice 는 안된다. 문자열이 들어가는것임 !! rspX 객체엔 compuerChoice라는 key값이 없다.
+        // 변수 값을 넣을땐 [] 를 사용하자.
+        $computer.style.background = `url(${IMG_URL}) ${rspX[compuerChoice]} 0`
+        $computer.style.backgroundSize = 'auto 200px'
+      }
+      setInterval(changeComputerHard, 50)
     </script>
   </body>
 </html>
