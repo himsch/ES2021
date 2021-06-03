@@ -24,6 +24,7 @@
       const $computer = document.querySelector('#computer')
       const $score = document.querySelector('#score')
       const $rock = document.querySelector('#rock')
+      const $scissors = document.querySelector('#scissors')
       const $paper = document.querySelector('#paper')
       const IMG_URL = './rsp.png'
       $computer.style.background = `url(${IMG_URL}) 0 0`
@@ -49,7 +50,20 @@
         $computer.style.background = `url(${IMG_URL}) ${rspX[compuerChoice]} 0`
         $computer.style.backgroundSize = 'auto 200px'
       }
-      setInterval(changeComputerHard, 50)
+      let intervalID = setInterval(changeComputerHard, 50)
+
+      const clickButton = () => {
+        clearInterval(intervalID)
+
+        setTimeout(() => {
+          // 버그방지를 우해 한번더 clear
+          clearInterval(intervalID)
+          intervalID = setInterval(changeComputerHard, 50)
+        }, 1000)
+      }
+      $rock.addEventListener('click', clickButton)
+      $scissors.addEventListener('click', clickButton)
+      $paper.addEventListener('click', clickButton)
     </script>
   </body>
 </html>
