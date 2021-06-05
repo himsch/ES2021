@@ -52,14 +52,39 @@
       }
       let intervalID = setInterval(changeComputerHard, 50)
 
-      const clickButton = () => {
-        clearInterval(intervalID)
+      const scoreTable = {
+        rock: 0,
+        scissors: 1,
+        paper: -1,
+      }
 
-        setTimeout(() => {
-          // 버그방지를 우해 한번더 clear
+      let clickable = true
+      let score = 0
+      const clickButton = event => {
+        if (clickable) {
           clearInterval(intervalID)
-          intervalID = setInterval(changeComputerHard, 50)
-        }, 1000)
+          clickable = false
+          // 조건 로직
+          const myChoice = event.target.id
+          const myScore = scoreTable[myChoice]
+          const computerScore = scoreTable[compuerChoice]
+          const diff = myScore - computerScore
+          let message = ''
+          if ([2, -1].includes(diff)) {
+            score += 1
+            message = '승리'
+          } else if ([-2, 1].includes(diff)) {
+            score -= 1
+            message = '패배'
+          } else {
+            message = '무승부'
+          }
+          $score.textContent = `${message} 총: ${score}점`
+          setTimeout(() => {
+            clickable = true
+            intervalID = setInterval(changeComputerHard, 50)
+          }, 1000)
+        }
       }
       $rock.addEventListener('click', clickButton)
       $scissors.addEventListener('click', clickButton)
