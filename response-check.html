@@ -46,6 +46,7 @@
             // 시작 시간재기
           }, Math.floor(Math.random() * 1000) + 2000)
         } else if (event.target.classList.contains('ready')) {
+          // timout 클리어 해주기.
           clearTimeout(timeoutId)
           $screen.classList.replace('ready', 'waiting')
           $result.textContent = '성급했습니다.'
