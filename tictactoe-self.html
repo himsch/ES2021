@@ -88,19 +88,25 @@
         turn = turn === 'X' ? 'O' : 'X'
       }
 
+      let clickable = true
       const callback = e => {
+        if (!clickable) {
+          return
+        }
         // 칸에 내용이 있으면 끝냄
         if (e.target.textContent) return
         e.target.textContent = turn
         // 승부판단하기
         checkWinnerAndDraw(e.target)
         if (turn === 'X') {
+          clickable = false
           setTimeout(() => {
             const emptyCells = rows.flat().filter(v => !v.textContent)
             const randomCell =
               emptyCells[Math.floor(Math.random() * emptyCells.length)]
             randomCell.textContent = 'X'
             checkWinnerAndDraw(e.target)
+            clickable = true
           }, 1000)
         }
       }
