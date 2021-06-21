@@ -95,11 +95,13 @@
         // 승부판단하기
         checkWinnerAndDraw(e.target)
         if (turn === 'X') {
-          const emptyCells = rows.flat().filter(v => !v.textContent)
-          const randomCell =
-            emptyCells[Math.floor(Math.random() * emptyCells.length)]
-          randomCell.textContent = 'X'
-          checkWinnerAndDraw(e.target)
+          setTimeout(() => {
+            const emptyCells = rows.flat().filter(v => !v.textContent)
+            const randomCell =
+              emptyCells[Math.floor(Math.random() * emptyCells.length)]
+            randomCell.textContent = 'X'
+            checkWinnerAndDraw(e.target)
+          }, 1000)
         }
       }
       for (let i = 0; i < 3; i++) {
