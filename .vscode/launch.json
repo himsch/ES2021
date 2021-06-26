@@ -7,7 +7,7 @@
     {
       "type": "pwa-chrome",
       "request": "launch",
-      "name": "Open rsp.html",
+      "name": "Open text-rpg.html",
       "file": "/Users/song/Project/ES2021/rsp.html"
     }
   ]
