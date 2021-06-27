@@ -111,8 +111,12 @@
             )
           } else if (input === '2') {
             // 휴식
+            this.hero.hp += this.hero.maxHp
+            this.updateHeroStat()
+            this.showMessage('충분한 휴식을 취했다.')
           } else if (input === '3') {
             // 종료
+            this.showMessage('')
             this.quit()
           }
         }
@@ -144,9 +148,17 @@
             this.updateMonsterStat()
           } else if (input === '2') {
             // 회복
+            const { hero, monster } = this
+            hero.hp = Math.min(hero.maxHp, hero.hp + 20)
+            monster.attack(hero)
+            this.showMessage('체력을 조금 회복했다.')
+            this.updateHeroStat
           } else if (input === '3') {
             // 도망
             this.changeScreen('game')
+            this.showMessage('부리나케 도망쳤다.')
+            this.monster = null
+            this.updateMonsterStat
           }
         }
         updateHeroStat() {
@@ -192,8 +204,23 @@
         }
       }
 
-      class Hero {
+      class Unit {
+        constructor(game, name, hp, att, xp) {
+          this.game = game
+          this.name = name
+          this.maxHp = hp
+          this.hp = hp
+          this.att = att
+          this.xp = xp
+        }
+        attack(target) {
+          target.hp -= this.att
+        }
+      }
+
+      class Hero extends Unit {
         constructor(game, name) {
+          super()
           this.game = game
           this.name = name
           this.lev = 1
@@ -201,9 +228,6 @@
           this.hp = 100
           this.xp = 0
           this.att = 10
-        }
-        attack(target) {
-          target.hp -= this.att
         }
         heal(monster) {
           this.hp += 20
@@ -222,16 +246,9 @@
         }
       }
 
-      class Monster {
+      class Monster extends Unit {
         constructor(game, name, hp, att, xp) {
-          this.game = game
-          this.name = name
-          this.hp = hp
-          this.att = att
-          this.xp = xp
-        }
-        attack(target) {
-          target.hp -= this.att
+          super(game, name, hp, att, xp)
         }
       }
 
