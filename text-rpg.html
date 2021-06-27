@@ -128,6 +128,7 @@
           monster.attack(hero)
           $heroHp.textContent = `HP: ${hero.hp}/${hero.maxHp}`
           $monsterHp.textContent = `HP: ${monster.hp}/${monster.maxHp}`
+          $message.textContent = `${hero.att}의 데미지를 주고 ${monster.att}의 데미지를 받았다.`
         } else if (input === 2) {
           // 회복
         } else if (input === 3) {
