@@ -55,10 +55,10 @@
       let shuffled = []
       let clicked = []
       let completed = []
+      let clickable = false
 
       function shuffle() {
         for (let i = 0; colorCopy.length > 0; i++) {
-          console.log(i)
           const randomIndex = Math.floor(Math.random() * colorCopy.length)
           shuffled = shuffled.concat(colorCopy.splice(randomIndex, 1))
         }
@@ -82,6 +82,10 @@
       }
 
       function oncClickCard() {
+        // 플래그변수, 짝맞춘카드클릭, 0번째로 클릭했던카드 다시클릭
+        if (!clickable || completed.includes(this) || clicked[0] === this) {
+          return
+        }
         // 함수 선언형 방식이므로 this는 태그가 된다.
         this.classList.toggle('flipped')
         clicked.push(this)
@@ -104,17 +108,21 @@
           if (completed.length !== total) {
             return
           }
-          alert('축하합니다.!')
+          setTimeout(() => {
+            alert('축하합니다.!')
+            resetGame()
+          }, 1000)
           return
         }
         setTimeout(() => {
-          clicked[0].classList.remove('fliped')
-          clicked[1].classList.remove('fliped')
+          clicked[0].classList.remove('flipped')
+          clicked[1].classList.remove('flipped')
           clicked = []
         }, 500)
       }
 
       function startGame() {
+        clickable = false
         shuffle()
         for (let i = 0; i < total; i++) {
           const card = createCard(i)
@@ -128,12 +136,22 @@
         })
 
         setTimeout(() => {
+          // 카드 감추기
           document.querySelectorAll('.card').forEach((card, index) => {
             card.classList.remove('flipped')
           })
+          clickable = true
         }, 5000)
       }
       startGame()
+
+      function resetGame() {
+        $wrapper.innerHTML = ''
+        colorCopy = colors.concat(colors)
+        shuffle = []
+        completed = []
+        startGame()
+      }
     </script>
   </body>
 </html>
