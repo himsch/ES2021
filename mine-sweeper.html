@@ -80,6 +80,20 @@
         }
         return data
       }
+      function drawTable() {
+        data = planMine()
+        data.forEach(row => {
+          const $tr = document.createElement('tr')
+          row.forEach(cell => {
+            const $td = document.createElement('td')
+            if (cell === CODE.MINE) {
+              $td.textContent = 'X'
+            }
+            $tr.append($td)
+          })
+          $tbody.append($tr)
+        })
+      }
     </script>
   </body>
 </html>
