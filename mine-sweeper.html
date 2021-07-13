@@ -80,6 +80,75 @@
         }
         return data
       }
+
+      function onRightClick(event) {
+        event.preventDefault()
+        const target = event.target
+        const rowIndex = target.parentNode.rowIndex
+        const cellIndex = target.cellIndex
+        const cellData = data[rowIndex][cellIndex]
+        if (cellData === CODE.MINE) {
+          data[rowIndex][cellIndex] = CODE.QUESTION_MINE
+          target.className = 'question'
+          target.textContent = '?'
+        } else if (cellData === CODE.QUESTION_MINE) {
+          data[rowIndex][cellIndex] = CODE.FLAG_MINE
+          target.className = 'flag'
+          target.textContent = '!'
+        } else if (cellData === CODE.FLAG_MINE) {
+          data[rowIndex][cellIndex] = CODE.MINE
+          target.className = ''
+          target.textContent = 'X'
+        } else if (cellData === CODE.NORMAL) {
+          data[rowIndex][cellIndex] = CODE.QUESTION
+          target.className = 'question'
+          target.textContent = '?'
+        } else if (cellData === CODE.QUESTION) {
+          data[rowIndex][cellIndex] = CODE.FLAG
+          target.className = 'flag'
+          target.textContent = '!'
+        } else if (cellData === CODE.FLAG) {
+          data[rowIndex][cellIndex] = CODE.NORMAL
+          target.className = ''
+          target.textContent = ''
+        }
+      }
+
+      function countMine(rowIndex, cellIndex) {
+        const mines = [CODE.MINE, CODE.QUESTION_MINE, CODE.FLAG_MINE]
+        let i = 0
+        mines.includes(data[rowIndex - 1]?.[cellIndex - 1]) && i++
+        mines.includes(data[rowIndex - 1]?.[cellIndex]) && i++
+        mines.includes(data[rowIndex - 1]?.[cellIndex + 1]) && i++
+        mines.includes(data[rowIndex][cellIndex - 1]) && i++ // data[rowIndex]는 반드시 존재하기때문에 옵셔널체이닝을 사용하지않음.
+        mines.includes(data[rowIndex][cellIndex + 1]) && i++
+        mines.includes(data[rowIndex + 1]?.[cellIndex - 1]) && i++
+        mines.includes(data[rowIndex + 1]?.[cellIndex]) && i++
+        mines.includes(data[rowIndex + 1]?.[cellIndex + 1]) && i++
+        return i
+      }
+
+      function onLeftClick(event) {
+        const target = event.target // td
+        const rowIndex = target.parentNode.rowIndex // tr
+        const cellIndex = target.cellIndex
+        const cellData = data[rowIndex][cellIndex]
+        if (cellData === CODE.NORMAL) {
+          // 닫힌 칸이면
+          const count = countMine(rowIndex, cellIndex)
+          target.textContent = count || ''
+          target.className = 'opened'
+          data[rowIndex][cellIndex] = count
+        } else if (cellData === CODE.MINE) {
+          // 지뢰칸이면
+          target.textContent = '펑'
+          target.className = 'opened'
+          $tbody.removeEventListener('contextmenu', onRightClick)
+          $tbody.removeEventListener('click', onLeftClick)
+        }
+        // 나머지칸은 아무동작 하지않음.
+      }
+
       function drawTable() {
         data = planMine()
         data.forEach(row => {
@@ -87,13 +156,16 @@
           row.forEach(cell => {
             const $td = document.createElement('td')
             if (cell === CODE.MINE) {
-              $td.textContent = 'X'
+              $td.textContent = 'X' // 개발의 편의를 위해 일단 지뢰위치 표시
             }
             $tr.append($td)
           })
           $tbody.append($tr)
+          $tbody.addEventListener('contextmenu', onRightClick)
+          $tbody.addEventListener('click', onLeftClick)
         })
       }
+      drawTable()
     </script>
   </body>
 </html>
