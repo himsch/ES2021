@@ -128,6 +128,32 @@
         return i
       }
 
+      function open(rowIndex, cellIndex) {
+        const target = $tbody.children[rowIndex]?.children[cellIndex]
+        if (!target) {
+          return
+        }
+        const count = countMine(rowIndex, cellIndex)
+        target.textContent = count || ''
+        target.className = 'opened'
+        data[rowIndex][cellIndex] = count
+        return count
+      }
+
+      function openAround(rowIndex, cellIndex) {
+        const count = open(rowIndex, cellIndex)
+        if (count === 0) {
+          // 주변칸 지뢰갯수가 0이면
+          open(rowIndex - 1, cellIndex - 1)
+          open(rowIndex - 1, cellIndex)
+          open(rowIndex, cellIndex - 1)
+          open(rowIndex, cellIndex + 1)
+          open(rowIndex + 1, cellIndex - 1)
+          open(rowIndex + 1, cellIndex)
+          open(rowIndex + 1, cellIndex + 1)
+        }
+      }
+
       function onLeftClick(event) {
         const target = event.target // td
         const rowIndex = target.parentNode.rowIndex // tr
@@ -135,10 +161,7 @@
         const cellData = data[rowIndex][cellIndex]
         if (cellData === CODE.NORMAL) {
           // 닫힌 칸이면
-          const count = countMine(rowIndex, cellIndex)
-          target.textContent = count || ''
-          target.className = 'opened'
-          data[rowIndex][cellIndex] = count
+          openAround(rowIndex, cellIndex)
         } else if (cellData === CODE.MINE) {
           // 지뢰칸이면
           target.textContent = '펑'
@@ -146,7 +169,7 @@
           $tbody.removeEventListener('contextmenu', onRightClick)
           $tbody.removeEventListener('click', onLeftClick)
         }
-        // 나머지칸은 아무동작 하지않음.
+        // 나머지칸(!,?)은 아무동작 하지않음.
       }
 
       function drawTable() {
