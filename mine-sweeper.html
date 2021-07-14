@@ -141,17 +141,19 @@
       }
 
       function openAround(rowIndex, cellIndex) {
-        const count = open(rowIndex, cellIndex)
-        if (count === 0) {
-          // 주변칸 지뢰갯수가 0이면
-          open(rowIndex - 1, cellIndex - 1)
-          open(rowIndex - 1, cellIndex)
-          open(rowIndex, cellIndex - 1)
-          open(rowIndex, cellIndex + 1)
-          open(rowIndex + 1, cellIndex - 1)
-          open(rowIndex + 1, cellIndex)
-          open(rowIndex + 1, cellIndex + 1)
-        }
+        setTimeout(() => {
+          const count = open(rowIndex, cellIndex)
+          if (count === 0) {
+            // 주변칸 지뢰갯수가 0이면
+            openAround(rowIndex - 1, cellIndex - 1)
+            openAround(rowIndex - 1, cellIndex)
+            openAround(rowIndex, cellIndex - 1)
+            openAround(rowIndex, cellIndex + 1)
+            openAround(rowIndex + 1, cellIndex - 1)
+            openAround(rowIndex + 1, cellIndex)
+            openAround(rowIndex + 1, cellIndex + 1)
+          }
+        }, 0)
       }
 
       function onLeftClick(event) {
