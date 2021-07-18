@@ -128,8 +128,36 @@
 
       startGame()
 
+      data = [
+        [0, 2, 4, 2],
+        [0, 0, 8, 0],
+        [2, 2, 4, 8],
+        [0, 16, 0, 4],
+      ]
+      draw()
+      function moveCells(direction) {
+        switch (direction) {
+          case left: {
+            const newData = [[], [], [], []]
+            break
+          }
+          case right: {
+            const newData = [[], [], [], []]
+            break
+          }
+          case up: {
+            const newData = [[], [], [], []]
+            break
+          }
+          case down: {
+            const newData = [[], [], [], []]
+            break
+          }
+        }
+        draw()
+      }
+
       // keyborad event
-      function moveCells(direction) {}
       window.addEventListener('keyup', event => {
         if (event.key === 'ArrowUp') {
           moveCells('up')
