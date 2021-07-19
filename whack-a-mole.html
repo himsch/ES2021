@@ -43,11 +43,11 @@
       }
       .hole {
         width: 200px;
-        height: 150;
+        height: 150px;
         position: absolute;
         bottom: 0;
         background: url('./mole-hole.png') center center no-repeat;
-        background-size: 200px 200px;
+        background-size: 200px 150px;
       }
       .hole-front {
         width: 200px;
@@ -131,7 +131,29 @@
       const $score = document.querySelector('#score')
       const $game = document.querySelector('#game')
       const $start = document.querySelector('#start')
-      const $$cells = document.querySelector('.cell')
+      const $$cells = document.querySelectorAll('.cell')
+
+      const holes = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+      let started = false
+      let score = 0
+      $start.addEventListener('click', () => {
+        if (started) return
+        started = true
+        console.log('시작')
+        const tickId = setInterval(tick, 1000)
+        tick()
+      })
+
+      function tick() {
+        holes.forEach((hole, index) => {
+          const $gopher = $$cells[index].querySelector('.gopher')
+          holes[index] = setTimeout(() => {
+            $gopher.classList.add('hidden')
+            holes[index] = 0
+          }, 1000)
+          $gopher.classList.remove('hidden')
+        })
+      }
     </script>
   </body>
 </html>
