@@ -169,6 +169,27 @@
           }
         })
       }
+
+      $$cells.forEach(($cell, index) => {
+        $cell.querySelector('.gopher').addEventListener('click', event => {
+          event.target.classList.add('dead')
+          event.target.classList.add('hidden')
+          clearTimeout(holes[index]) // 기존 내려가는 타이머를 삭제
+          setTimeout(() => {
+            holes[index] = 0
+            event.target.classList.remove('dead') // 때려잡은 울고있는 두더지를 제거
+          }, 1000)
+        })
+        $cell.querySelector('.bomb').addEventListener('click', event => {
+          event.target.classList.add('boom')
+          event.target.classList.add('hidden')
+          clearTimeout(holes[index]) // 기존 내려가는 타이머를 삭제
+          setTimeout(() => {
+            holes[index] = 0
+            event.target.classList.remove('boom')
+          }, 1000)
+        })
+      })
     </script>
   </body>
 </html>
