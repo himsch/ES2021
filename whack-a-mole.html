@@ -146,6 +146,7 @@
 
       function tick() {
         holes.forEach((hole, index) => {
+          if (hole) return
           const $gopher = $$cells[index].querySelector('.gopher')
           holes[index] = setTimeout(() => {
             $gopher.classList.add('hidden')
