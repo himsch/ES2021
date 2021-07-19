@@ -143,9 +143,16 @@
         started = true
         console.log('시작')
         const timerId = setInterval(() => {
-          time = (time * 10 - 1) / 10
+          time = (time * 10 - 1) / 10 // 소수점 계산 문제가 있어서 정수로 바꾼후 -1 하고 다시 소수로
           $timer.textContent = time
-        }, 50)
+          if (time === 0) {
+            setTimeout(() => {
+              clearInterval(timerId)
+              clearInterval(tickId)
+              alert(`게임오버 점수는${score}점`)
+            }, 50)
+          }
+        }, 100)
         const tickId = setInterval(tick, 1000)
         tick()
       })
@@ -178,6 +185,10 @@
 
       $$cells.forEach(($cell, index) => {
         $cell.querySelector('.gopher').addEventListener('click', event => {
+          if (!event.target.classList.contains('dead')) {
+            score += 1
+            $score.textContent = score
+          }
           event.target.classList.add('dead')
           event.target.classList.add('hidden')
           clearTimeout(holes[index]) // 기존 내려가는 타이머를 삭제
@@ -185,8 +196,6 @@
             holes[index] = 0
             event.target.classList.remove('dead') // 때려잡은 울고있는 두더지를 제거
           }, 1000)
-          score += 1
-          $score.textContent = score
         })
         $cell.querySelector('.bomb').addEventListener('click', event => {
           event.target.classList.add('boom')
